@@ -26,20 +26,20 @@ defmodule ChitChat.Accounts.Credential do
     struct
     |> changeset(attrs)
     |> cast(attrs, [:password, :password_confirmation])
-    |> validate_required( [:password, :password_confirmation])
+    |> validate_required([:password, :password_confirmation])
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password)
     |> hash_password()
   end
 
-  def hash_password(%{valid?: false} = changeset)do
+  def hash_password(%{valid?: false} = changeset) do
     IO.puts("??????????????????????????")
     IO.inspect(changeset)
     changeset
-    end
+  end
 
   def hash_password(%{valid?: true, changes: %{password: pass}} = changeset) do
-    IO.puts "GOT HERE"
+    IO.puts("GOT HERE")
     put_change(changeset, :password_hash, Argon2.hashpwsalt(pass))
   end
 end
